@@ -10,14 +10,29 @@ on:
 
 
 jobs: 
-  autoscrape:
-    # The type of runner that the job will run on
-    runs-on: windows-latest
+ generate-data:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: ubuntu-latest,   r: 'release'}
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: ${{ matrix.config.rspm }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     # Load repo and install R
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
     - uses: r-lib/actions/setup-r@master
+      with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
 
     # Set-up R
     - name: Install packages
@@ -25,10 +40,13 @@ jobs:
         devtools::install_github("chguiterman/rIMPD")
         install.packages("dplyr")
         install.packages("purrr")
+      shell: Rscript {0}
+    
     - name: Scrape
-      run: Rscript scrape_NA_IMPD.R
-      
- # Add new files in data folder, commit along with other modified files, push
+      run: |
+        source("Rscript scrape_NA_IMPD.R")
+      shell: Rscript {0}
+        
     - name: Commit files
       run: |
         git config --local user.name actions-user
