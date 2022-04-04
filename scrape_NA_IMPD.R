@@ -2,8 +2,9 @@
 ## and all records including Gambel oak, with associated FHX files
 
 library(rIMPD)
-library(tidyverse)
-library(sf)
+library(dplyr)
+library(purrr)
+
 
 
 impd_meta <- search_impd() %>%

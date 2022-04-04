@@ -3,6 +3,8 @@ name: NA-IMPD-scrape
 
 # Controls when the action will run.
 on:
+  push:
+    branches: [main, master]
   schedule:
     - cron:  '30 5 * * 1'
 
@@ -14,16 +16,15 @@ jobs:
 
     # Load repo and install R
     steps:
-    - uses: actions/checkout@master
-    - uses: r-lib/actions/setup-r@master
+    - uses: actions/checkout@main
+    - uses: r-lib/actions/setup-r@main
 
     # Set-up R
     - name: Install packages
       run: |
-        R -e 'install.packages("tidyverse")'
-        R -e 'devtools::install_github("chguiterman/rIMPD")'
-        R -e 'install.packages("sf")'
-    # Run R script
+        devtools::install_github("chguiterman/rIMPD")
+        install.packages("dplyr")
+        install.packages("purrr")
     - name: Scrape
       run: Rscript scrape_NA_IMPD.R
       
