@@ -39,12 +39,13 @@ jobs:
       run: |
         install.packages("dplyr")
         install.packages("purrr")
-        install.packages("devtools")
+        install.packages("remotes")
+        remotes::install_github("chguiterman/rIMPD")
       shell: Rscript {0}
     
     - name: Scrape
       run: |
-        source("Rscript scrape_NA_IMPD.R")
+        source("scrape_NA_IMPD.R")
       shell: Rscript {0}
         
     - name: Commit files

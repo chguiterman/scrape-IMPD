@@ -1,9 +1,6 @@
 # Run script to generate full North American IMPD metadata record
 ## and all records including Gambel oak, with associated FHX files
 
-# Install rIMPD
-devtools::install_github("chguiterman/rIMPD")
-
 library(rIMPD)
 library(dplyr)
 library(purrr)
