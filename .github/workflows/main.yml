@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest,   r: 'release'}
+          - {os: windows-latest,   r: 'release'}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -40,7 +40,7 @@ jobs:
         install.packages("dplyr")
         install.packages("purrr")
         install.packages("remotes")
-        remotes::install_github("chguiterman/rIMPD")
+        remotes::install_github("chguiterman/rIMPD", build_opts = c("--no-build-vignettes"))
       shell: Rscript {0}
     
     - name: Scrape
