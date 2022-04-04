@@ -37,9 +37,9 @@ jobs:
     # Set-up R
     - name: Install packages
       run: |
-        remotes::install_github("chguiterman/rIMPD")
         install.packages("dplyr")
         install.packages("purrr")
+        install.packages("devtools")
       shell: Rscript {0}
     
     - name: Scrape
